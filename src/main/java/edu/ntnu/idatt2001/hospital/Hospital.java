@@ -7,11 +7,11 @@ import java.util.Map;
 
 public class Hospital {
     private final String hospitalName;
-    private Map<Integer, Department> departments;
+    private List<Department> departments;
 
     public Hospital(String hospitalName) {
         this.hospitalName = hospitalName;
-        this.departments = new HashMap<>();
+        this.departments = new ArrayList<>();
     }
 
     public String getHospitalName() {
@@ -19,16 +19,12 @@ public class Hospital {
     }
 
     public List<Department> getDepartments() {
-        ArrayList<Department> departmentList = new ArrayList<>();
-        for (Integer i : departments.keySet()) {
-            departmentList.add(departments.get(i));
-        }
-        return departmentList;
+        return departments;
     }
 
     public void addDepartment(Department department) {
-        if (!departments.containsKey(department.hashCode())) {
-            departments.put(getDepartments().hashCode(), department);
+        if (!departments.contains(department)) {
+            departments.add(department);
         }
     }
 
@@ -37,8 +33,8 @@ public class Hospital {
         String ret = "";
         ret += "Hospital - " + hospitalName + "\n\n";
         ret += "All Departments:";
-        for (Integer i : departments.keySet()) {
-            ret += departments.get(i).toString();
+        for (Department d : departments) {
+            ret += d.toString();
             ret += '\n';
         }
         return ret;

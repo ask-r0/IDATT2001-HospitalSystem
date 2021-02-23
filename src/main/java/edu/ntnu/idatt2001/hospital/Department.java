@@ -6,13 +6,13 @@ import java.util.*;
 
 public class Department {
     private String departmentName;
-    private Map<String, Patient> patients;
-    private Map<String, Employee> employees;
+    private List<Patient> patients;
+    private List<Employee> employees;
 
     public Department(String departmentName) {
         this.departmentName = departmentName;
-        this.employees = new HashMap<>();
-        this.patients = new HashMap<>();
+        this.employees = new ArrayList<>();
+        this.patients = new ArrayList<>();
     }
 
     public String getDepartmentName() {
@@ -24,38 +24,29 @@ public class Department {
     }
 
     public List<Patient> getPatients() {
-        ArrayList<Patient> patientList = new ArrayList<>();
-        for (String SSN : patients.keySet()) {
-            patientList.add(patients.get(SSN));
-        }
-        return patientList;
+        return patients;
     }
 
     public List<Employee> getEmployees() {
-        ArrayList<Employee> employeeList = new ArrayList<>();
-        for (String SSN : employees.keySet()) {
-            employeeList.add(employees.get(SSN));
-        }
-        return employeeList;
+        return employees;
     }
 
     public void addPatient(Patient patient) {
-        if (!patients.containsKey(patient.getSocialSecurityNumber())) {
-            patients.put(patient.getSocialSecurityNumber(), patient);
+        if (!patients.contains(patient)) {
+            patients.add(patient);
         }
     }
 
     public void addEmployee(Employee employee) {
-        if (!employees.containsKey(employee.getSocialSecurityNumber())) {
-            employees.put(employee.getSocialSecurityNumber(), employee);
+        if (!employees.contains(employee)) {
+            employees.add(employee);
         }
     }
 
     public void remove(Person person) throws RemoveException {
-        String personsSSN = person.getSocialSecurityNumber();
-        if (person instanceof Employee && employees.containsKey(personsSSN)) {
+        if (person instanceof Employee && employees.contains(person)) {
             employees.remove(person.getSocialSecurityNumber());
-        }else if (person instanceof Patient && patients.containsKey(personsSSN)) {
+        }else if (person instanceof Patient && patients.contains(person)) {
             patients.remove(person.getSocialSecurityNumber());
         } else {
             throw new RemoveException("Object not found in neither employee-register nor patient-register.");
@@ -84,13 +75,13 @@ public class Department {
         ret += "Department | " + departmentName + '\n';
 
         ret += "List of employees: \n";
-        for (String SSN : employees.keySet()) {
-            ret += employees.get(SSN).toString() + '\n';
+        for (Employee e : employees) {
+            ret += e.toString() + '\n';
         }
 
         ret += "List of patients: \n";
-        for (String SSN : patients.keySet()) {
-            ret += patients.get(SSN).toString() + '\n';
+        for (Patient p : patients) {
+            ret += p.toString() + '\n';
         }
         return ret;
 
