@@ -51,6 +51,17 @@ public class Department {
         }
     }
 
+    public void remove(Person person) throws RemoveException {
+        String personsSSN = person.getSocialSecurityNumber();
+        if (person instanceof Employee && employees.containsKey(personsSSN)) {
+            employees.remove(person.getSocialSecurityNumber());
+        }else if (person instanceof Patient && patients.containsKey(personsSSN)) {
+            patients.remove(person.getSocialSecurityNumber());
+        } else {
+            throw new RemoveException("Object not found in neither employee-register nor patient-register.");
+        }
+    }
+
 
     @Override
     public boolean equals(Object o) {
